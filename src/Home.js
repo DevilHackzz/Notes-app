@@ -418,14 +418,53 @@ function NotesApp() {
                 }:${currentNote.time.minutes}:${currentNote.time.seconds}`}</h6>
               </div>
               <div className="actions">
-                <button
-                  onClick={() => {
-                    addContainer();
-                    handleEditNote();
-                  }}
-                >
-                  <RiEdit2Fill className="note-buttons" />
-                </button>
+                {activeNav !== "deleted" ? (
+                  <button
+                    onClick={() => {
+                      addContainer();
+                      handleEditNote();
+                    }}
+                  >
+                    <RiEdit2Fill className="note-buttons" />
+                  </button>
+                ) : (
+                  <button>
+                    <RiEdit2Fill
+                      fill="lightgrey"
+                      style={{ cursor: "not-allowed" }}
+                      className="note-buttons"
+                    />
+                  </button>
+                )}
+
+                {activeNav === "deleted" ? (
+                  <button>
+                    {currentNote.starred ? (
+                      <AiFillStar
+                        style={{ color: "lightgrey", cursor: "not-allowed" }}
+                        className="note-buttons"
+                      />
+                    ) : (
+                      <BiStar
+                        style={{ color: "lightgrey", cursor: "not-allowed" }}
+                        className="note-buttons"
+                      />
+                    )}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      starredCounting(currentNote);
+                      handleStarNote(currentNote);
+                    }}
+                  >
+                    {currentNote.starred ? (
+                      <AiFillStar fill="#fbff02" className="note-buttons" />
+                    ) : (
+                      <BiStar className="note-buttons" />
+                    )}
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     deletedCounting(currentNote);
@@ -436,18 +475,6 @@ function NotesApp() {
                     <MdOutlineDeleteForever className="note-buttons" />
                   ) : (
                     <BiTrash className="note-buttons" />
-                  )}
-                </button>
-                <button
-                  onClick={() => {
-                    starredCounting(currentNote);
-                    handleStarNote(currentNote);
-                  }}
-                >
-                  {currentNote.starred ? (
-                    <AiFillStar fill="#fbff02" className="note-buttons" />
-                  ) : (
-                    <BiStar className="note-buttons" />
                   )}
                 </button>
               </div>
